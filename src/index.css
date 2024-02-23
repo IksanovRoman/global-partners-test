@@ -3,6 +3,13 @@
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
+
+  --grey-1: #ededed;
+
+  --blue-2: #acd5f2;
+  --blue-3: #7fa8c9;
+  --blue-4: #527ba0;
+  --blue-5: #254e77;
 }
 
 * {
@@ -22,4 +29,17 @@
 .page {
   padding: 10px;
   flex-grow: 1;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 3px;
+}
+
+th,
+td {
+  text-align: center;
+  background-color: var(--grey-1);
 }
