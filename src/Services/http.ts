@@ -1,6 +1,6 @@
-import { _axios } from '../API/axios';
+import axios from 'axios';
 
 export const getContributionData = async () => {
-  const response = await _axios.get('https://dpg.gg/test/calendar.json');
+  const response = await axios.get('https://dpg.gg/test/calendar.json');
   return response.data;
 };

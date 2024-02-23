@@ -1,12 +1,7 @@
-import { BrowserRouter } from 'react-router-dom';
-import Pages from '../Pages';
+import MainPage from '../Pages/MainPage';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Pages />
-    </BrowserRouter>
-  );
+  return <MainPage />;
 }
 
 export default App;
