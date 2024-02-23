@@ -43,3 +43,7 @@ td {
   text-align: center;
   background-color: var(--grey-1);
 }
+
+.Selected {
+  border: 2px solid black;
+}

@@ -4,20 +4,37 @@ import { format, subWeeks } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import {
   getCellColor,
+  getClassName,
   getContributionsMessage,
   getFirstLetterCapital,
+  getOpenStatus,
+  handleMouseDown,
   isFirstDateAfterSecondDate,
   parseDatetime,
 } from './utils';
-import { Tooltip } from '@mui/material';
+import { Tooltip, TooltipProps, styled, tooltipClasses } from '@mui/material';
 import { days, formatString } from './const';
 import {
   DataInterface,
   DateWithMonthsInterface,
   GroupedArrayInterface,
 } from './types';
+import { useState } from 'react';
+
+const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} arrow placement="top" classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
+  },
+}));
 
 function MainPage() {
+  const [select, setSelect] = useState([-1, -1]);
+
   const { isPending, isError, data, error } = useQuery<DataInterface>({
     queryKey: ['contribution'],
     queryFn: () => getContributionData(),
@@ -95,19 +112,19 @@ function MainPage() {
               );
             })}
         </tr>
-        {days.map(day => {
+        {days.map((day, i) => {
           return (
             <tr key={day.short}>
               <td>{day.short}</td>
               {datesWithMonths
                 .slice()
                 .reverse()
-                .map(date => {
+                .map((date, j) => {
                   const rightDay = date.contribution.find(
                     value => value.day === day.long,
                   );
                   return rightDay ? (
-                    <Tooltip
+                    <BootstrapTooltip
                       title={
                         <div>
                           <div>{getContributionsMessage(rightDay?.value)}</div>
@@ -116,17 +133,19 @@ function MainPage() {
                           </div>
                         </div>
                       }
-                      arrow
-                      key={date.date}
-                      placement="top"
+                      open={getOpenStatus(i, j, select)}
                     >
                       <td
                         style={{
                           background: getCellColor(Number(rightDay?.value)),
                           cursor: 'pointer',
                         }}
+                        onMouseDown={e =>
+                          handleMouseDown(e, i, j, select, setSelect)
+                        }
+                        className={getClassName(i, j, select)}
                       ></td>
-                    </Tooltip>
+                    </BootstrapTooltip>
                   ) : (
                     <td></td>
                   );

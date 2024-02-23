@@ -28,3 +28,35 @@ export const getContributionsMessage = (number: number | undefined) => {
   if (number) return `${number} contributions`;
   return '';
 };
+
+export const getClassName = (row: number, col: number, select: number[]) => {
+  const [iniRow, iniCol] = select;
+
+  if (row === iniRow && col === iniCol) {
+    return 'Selected';
+  }
+};
+
+export const getOpenStatus = (row: number, col: number, select: number[]) => {
+  const [iniRow, iniCol] = select;
+
+  if (row === iniRow && col === iniCol) {
+    return true;
+  }
+  return false;
+};
+
+export const handleMouseDown = (
+  _e: React.MouseEvent,
+  row: number,
+  col: number,
+  select: number[],
+  setSelect: (value: React.SetStateAction<number[]>) => void,
+) => {
+  const [iniRow, iniCol] = select;
+
+  if (row === iniRow && col === iniCol) {
+    return setSelect([-1, -1]);
+  }
+  setSelect([row, col]);
+};
